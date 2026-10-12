@@ -1,0 +1,31 @@
+version: 2
+
+sources:
+  - name: olome_raw
+    database: OLOME_DATA_PORTFOLIO
+    schema: RAW
+
+    tables:
+      - name: company
+        identifier: COMPANY
+
+      - name: contact
+        identifier: CONTACT
+
+      - name: salesperson
+        identifier: SALESPERSON
+
+      - name: call
+        identifier: CALL
+
+      - name: demo
+        identifier: DEMO
+
+      - name: product
+        identifier: PRODUCT
+
+      - name: deal
+        identifier: DEAL
+
+      - name: deal_product
+        identifier: DEAL_PRODUCT
