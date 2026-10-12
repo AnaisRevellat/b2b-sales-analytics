@@ -1,15 +1,9 @@
-Welcome to your new dbt project!
+# B2B Sales Analytics
 
-### Using the starter project
+End-to-end analytics engineering project focused on B2B SaaS sales performance, commercial funnel analysis and the impact of a strategic market pivot.
 
-Try running the following commands:
-- dbt run
-- dbt test
+The project uses Snowflake as the data warehouse and dbt for transformation, testing and analytics modeling.
 
+## Data disclaimer
 
-### Resources:
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [dbt community](https://getdbt.com/community) to learn from other analytics engineers
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+This portfolio project is inspired by a real B2B SaaS sales context. Public company information is derived from public sources. Contacts, commercial events, amounts and other business data used for analysis are synthetic or anonymized and do not reproduce confidential company data.
