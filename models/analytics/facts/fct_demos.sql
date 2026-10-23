@@ -19,11 +19,11 @@ final as (
         cast(scheduled_at as date) as scheduled_date,
         cast(demo_at as date) as demo_date,
 
-        date_trunc('month', scheduled_at) as scheduled_month,
+        date_trunc(cast(scheduled_at as date), month) as scheduled_month,
 
         case
-            when cast(scheduled_at as date) < '2025-07-01' then 'PRE_PIVOT'
-            when cast(scheduled_at as date) < '2025-09-01' then 'TRANSITION'
+            when cast(scheduled_at as date) < date '2025-07-01' then 'PRE_PIVOT'
+            when cast(scheduled_at as date) < date '2025-09-01' then 'TRANSITION'
             else 'POST_PIVOT'
         end as commercial_phase,
 

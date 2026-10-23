@@ -25,11 +25,11 @@ final as (
 
         deals.signed_at,
         cast(deals.signed_at as date) as signed_date,
-        date_trunc('month', deals.signed_at) as signed_month,
+        date_trunc(cast(deals.signed_at as date), month) as signed_month,
 
         case
-            when cast(deals.signed_at as date) < '2025-07-01' then 'PRE_PIVOT'
-            when cast(deals.signed_at as date) < '2025-09-01' then 'TRANSITION'
+            when cast(deals.signed_at as date) < date '2025-07-01' then 'PRE_PIVOT'
+            when cast(deals.signed_at as date) < date '2025-09-01' then 'TRANSITION'
             else 'POST_PIVOT'
         end as commercial_phase,
 
@@ -45,10 +45,10 @@ final as (
             + (deals.monthly_recurring_amount * 12)
             as first_year_revenue,
 
-        datediff(
-            'day',
+        date_diff(
+            cast(deals.signed_at as date),
             cast(demos.demo_at as date),
-            cast(deals.signed_at as date)
+            day
         ) as days_demo_to_signature
 
     from deals
