@@ -14,17 +14,17 @@ final as (
 
         called_at,
         cast(called_at as date) as call_date,
-        date_trunc('month', called_at) as call_month,
-        date_part('hour', called_at) as call_hour,
+        date_trunc(cast(called_at as date), month) as call_month,
+        extract(hour from called_at) as call_hour,
 
         case
-            when date_part('hour', called_at) < 12 then 'MORNING'
+            when extract(hour from called_at) < 12 then 'MORNING'
             else 'AFTERNOON'
         end as day_part,
 
         case
-            when cast(called_at as date) < '2025-07-01' then 'PRE_PIVOT'
-            when cast(called_at as date) < '2025-09-01' then 'TRANSITION'
+            when cast(called_at as date) < date '2025-07-01' then 'PRE_PIVOT'
+            when cast(called_at as date) < date '2025-09-01' then 'TRANSITION'
             else 'POST_PIVOT'
         end as commercial_phase,
 

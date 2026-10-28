@@ -23,24 +23,30 @@ deal_product_allocated as (
 
         product_counts.product_count,
 
-        1.0 / product_counts.product_count
-            as allocated_deal_count,
+        safe_divide(
+            cast(1 as float64),
+            product_counts.product_count
+        ) as allocated_deal_count,
 
-        deals.installation_amount
-            / product_counts.product_count
-            as allocated_installation_revenue,
+        safe_divide(
+            deals.installation_amount,
+            product_counts.product_count
+        ) as allocated_installation_revenue,
 
-        deals.monthly_recurring_amount
-            / product_counts.product_count
-            as allocated_monthly_recurring_revenue,
+        safe_divide(
+            deals.monthly_recurring_amount,
+            product_counts.product_count
+        ) as allocated_monthly_recurring_revenue,
 
-        deals.annual_recurring_amount
-            / product_counts.product_count
-            as allocated_annual_recurring_revenue,
+        safe_divide(
+            deals.annual_recurring_amount,
+            product_counts.product_count
+        ) as allocated_annual_recurring_revenue,
 
-        deals.first_year_revenue
-            / product_counts.product_count
-            as allocated_first_year_revenue
+        safe_divide(
+            deals.first_year_revenue,
+            product_counts.product_count
+        ) as allocated_first_year_revenue
 
     from {{ ref('fct_deals') }} as deals
 

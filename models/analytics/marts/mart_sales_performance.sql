@@ -7,8 +7,8 @@ with call_metrics as (
         salesperson_id,
 
         count(*) as total_calls,
-        count_if(is_answered) as answered_calls,
-        count_if(is_discovery) as discovery_calls,
+        countif(is_answered) as answered_calls,
+        countif(is_discovery) as discovery_calls,
 
         0 as demos_planned,
         0 as demos_held,
@@ -46,8 +46,8 @@ demo_metrics as (
         0 as discovery_calls,
 
         count(*) as demos_planned,
-        count_if(is_demo_held) as demos_held,
-        count_if(is_no_show) as no_shows,
+        countif(is_demo_held) as demos_held,
+        countif(is_no_show) as no_shows,
 
         0 as signed_deals,
 
@@ -84,7 +84,7 @@ deal_metrics as (
         0 as demos_held,
         0 as no_shows,
 
-        count_if(status = 'WON') as signed_deals,
+        countif(status = 'WON') as signed_deals,
 
         sum(
             case
@@ -222,11 +222,10 @@ select
     aggregated.closing_days_sum,
     aggregated.closing_days_count,
 
-    case
-        when aggregated.closing_days_count > 0
-        then cast(aggregated.closing_days_sum as float)
-             / aggregated.closing_days_count
-    end as avg_days_demo_to_signature
+    safe_divide(
+        cast(aggregated.closing_days_sum as float64),
+        aggregated.closing_days_count
+    ) as avg_days_demo_to_signature
 
 from aggregated
 

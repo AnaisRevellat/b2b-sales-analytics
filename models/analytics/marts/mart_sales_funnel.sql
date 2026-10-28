@@ -6,13 +6,13 @@ with call_metrics as (
         salesperson_id,
 
         count(*) as total_calls,
-        count_if(is_answered) as answered_calls,
-        count_if(is_discovery) as discovery_calls,
-        count_if(is_ko) as ko_calls,
-        count_if(is_bad_timing) as bad_timing_calls,
-        count_if(is_gatekeeper) as gatekeeper_calls,
-        count_if(is_hang_up) as hang_up_calls,
-        count_if(demo_scheduled) as demos_scheduled_from_calls,
+        countif(is_answered) as answered_calls,
+        countif(is_discovery) as discovery_calls,
+        countif(is_ko) as ko_calls,
+        countif(is_bad_timing) as bad_timing_calls,
+        countif(is_gatekeeper) as gatekeeper_calls,
+        countif(is_hang_up) as hang_up_calls,
+        countif(demo_scheduled) as demos_scheduled_from_calls,
 
         0 as demos_planned,
         0 as demos_held,
@@ -99,7 +99,7 @@ deal_metrics as (
         0 as no_shows,
         0 as demo_cohort_signatures,
 
-        count_if(status = 'WON') as signed_deals
+        countif(status = 'WON') as signed_deals
 
     from {{ ref('fct_deals') }}
 
@@ -175,35 +175,30 @@ select
     aggregated.demo_cohort_signatures,
     aggregated.signed_deals,
 
-    case
-        when aggregated.total_calls > 0
-        then cast(aggregated.answered_calls as float)
-             / aggregated.total_calls
-    end as answer_rate,
+    safe_divide(
+        cast(aggregated.answered_calls as float64),
+        aggregated.total_calls
+    ) as answer_rate,
 
-    case
-        when aggregated.answered_calls > 0
-        then cast(aggregated.discovery_calls as float)
-             / aggregated.answered_calls
-    end as discovery_rate,
+    safe_divide(
+        cast(aggregated.discovery_calls as float64),
+        aggregated.answered_calls
+    ) as discovery_rate,
 
-    case
-        when aggregated.answered_calls > 0
-        then cast(aggregated.demos_scheduled_from_calls as float)
-             / aggregated.answered_calls
-    end as answered_to_demo_rate,
+    safe_divide(
+        cast(aggregated.demos_scheduled_from_calls as float64),
+        aggregated.answered_calls
+    ) as answered_to_demo_rate,
 
-    case
-        when aggregated.demos_planned > 0
-        then cast(aggregated.no_shows as float)
-             / aggregated.demos_planned
-    end as no_show_rate,
+    safe_divide(
+        cast(aggregated.no_shows as float64),
+        aggregated.demos_planned
+    ) as no_show_rate,
 
-    case
-        when aggregated.demos_held > 0
-        then cast(aggregated.demo_cohort_signatures as float)
-             / aggregated.demos_held
-    end as demo_to_signature_rate
+    safe_divide(
+        cast(aggregated.demo_cohort_signatures as float64),
+        aggregated.demos_held
+    ) as demo_to_signature_rate
 
 from aggregated
 
