@@ -168,3 +168,84 @@ models:
               arguments:
                 to: ref('dim_product')
                 field: product_id
+
+
+  - name: mart_sales_funnel
+    columns:
+      - name: activity_month
+        data_tests:
+          - not_null
+
+      - name: commercial_phase
+        data_tests:
+          - not_null
+
+      - name: salesperson_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_salesperson')
+                field: salesperson_id
+
+
+  - name: mart_sales_performance
+    columns:
+      - name: activity_month
+        data_tests:
+          - not_null
+
+      - name: commercial_phase
+        data_tests:
+          - not_null
+
+      - name: company_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_company')
+                field: company_id
+
+      - name: salesperson_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_salesperson')
+                field: salesperson_id
+
+
+  - name: mart_product_performance
+    columns:
+      - name: activity_month
+        data_tests:
+          - not_null
+
+      - name: commercial_phase
+        data_tests:
+          - not_null
+
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_id
+
+      - name: company_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_company')
+                field: company_id
+
+      - name: salesperson_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_salesperson')
+                field: salesperson_id
